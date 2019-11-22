@@ -4,6 +4,7 @@ package se.mutate.backend.model.formdata;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -15,8 +16,8 @@ public class FormData {
     private String email;
     private String phone;
     private String city;
-    private String resume; // filnamn?
-    private String coverletter; // fil
+    private MultipartFile resume; // filnamn?
+    private MultipartFile coverletter; // fil
     private String reasoning;
 
 }
