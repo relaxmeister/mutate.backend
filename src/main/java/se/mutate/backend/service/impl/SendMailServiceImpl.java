@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import se.mutate.backend.model.Beer;
 import se.mutate.backend.model.formdata.FormData;
 import se.mutate.backend.service.SendMailService;
 
@@ -27,6 +28,9 @@ public class SendMailServiceImpl implements SendMailService {
     @Autowired
     SendGrid sendGrid;
 
+    Beer b = new Beer();
+
+
     /*
     * TIP
     * Message size limit: The total message size should not exceed 20MB.
@@ -37,6 +41,7 @@ public class SendMailServiceImpl implements SendMailService {
 
     public String sendFormAsEmail(FormData formdata, MultipartFile resume, MultipartFile coverLetter) throws IOException {
         Email from = new Email("Belieber@example.com");
+
         String subject = "Job Application Mutate: "+ formdata.getJob() +" "+ formdata.getName() +" "+ formdata.getLastname();
         Email to = new Email("jojjethebest@hotmail.com");
         Content content = new Content("text/html",
@@ -92,7 +97,7 @@ public class SendMailServiceImpl implements SendMailService {
 
     }
 
-    public String sendFormEasy(String email) throws IOException {
+    public String sendFormEasy(String email) throws IOException { // används inte längre
         Email from = new Email("test@gmail.com");
         String subject = "Let me give you muneee";
         //Email to = new Email("raseri90@gmail.com");

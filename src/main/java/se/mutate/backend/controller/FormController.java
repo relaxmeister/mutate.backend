@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.mutate.backend.model.formdata.FormData;
-import se.mutate.backend.model.formdata.Multi;
 import se.mutate.backend.service.SendMailService;
 
 import javax.imageio.IIOException;
@@ -23,7 +22,7 @@ import java.util.Set;
 import org.springframework.validation.Validator;
 
 @RestController
-@RequestMapping(value = "")
+@RequestMapping(value = "/recruit")
 public class FormController {
     private SendMailService sendMailService;
 
@@ -36,28 +35,16 @@ public class FormController {
     }
 
     @CrossOrigin(origins="*")
-    @PostMapping("/recruit/ph")//temporär placeholder
+    @PostMapping("/ph")//temporär placeholder
     @ResponseStatus(HttpStatus.OK)
     public FormData sendJobApplication(@RequestBody FormData formdata) {
-
 
         //sendMailService.sendFormAsEmail(formdata); //vill nu ha 2 filer
         return formdata;
     }
 
-    @PostMapping(value = "/recruit/phnew", headers=("content-type=multipart/*"))
-    public Multi wooper(@RequestBody MultipartFile part) {
-
-        Multi hej = new Multi();
-        hej.setPart(part);
-
-
-        //sendMailService.sendFormAsEmail(formdata);
-        return hej;
-    }
-
     @CrossOrigin(origins="*")
-    @PostMapping(value = "/recruit/phnewer", headers=("content-type=multipart/*"))
+    @PostMapping(value = "/phnewer", headers=("content-type=multipart/*"))
     public String woooo(@RequestParam("file1") MultipartFile resume,
                         @RequestParam("file2") MultipartFile coverLetter,
                         @RequestParam("obj") String obj
