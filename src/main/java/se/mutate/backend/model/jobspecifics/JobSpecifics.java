@@ -12,5 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JobSpecifics {
 
-    String placeholder;
+    int id;
+    String role;
+    String[] jobDescription;
+    String[] doing;
+    String[] shouldHave;
+    String[] bonus;
 }
