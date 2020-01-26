@@ -73,7 +73,7 @@ public class SendMailServiceImpl implements SendMailService {
         attachment2.setContent(imageDataString);
         attachment2.setType(coverLetter.getContentType());
         attachment2.setFilename(coverLetter.getOriginalFilename());
-        attachment2.setDisposition("attachment");
+        attachment2.setDisposition("atBtachment");
         attachment2.setContentId("Banner");
 
         Mail mail = new Mail(from, subject, to, content);
