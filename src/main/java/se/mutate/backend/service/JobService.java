@@ -8,5 +8,6 @@ import java.util.Set;
 public interface JobService {
 
     Set<JobDetail> getJobs();
-    JobSpecifics getJobDetailsById(int id);
+    JobSpecifics getJobSpecificsById(Long id);
+    JobSpecifics findByJobDetail(Long id);
 }

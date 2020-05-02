@@ -28,7 +28,7 @@ class BackendApplicationTests {
 	void testValidateFormData() {
 		FormData formData = new FormData();
 
-		formData.setName("JonformData.setLastname(\"Hallström\")as");
+		formData.setName("Jonas");
 		formData.setLastname("Hallström");
 		formData.setCity("Stockholm");
 		formData.setEmail("baskdas");
