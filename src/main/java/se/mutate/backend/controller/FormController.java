@@ -82,6 +82,7 @@ public class FormController {
             return "SUCCESS!";
         } catch (Exception e) {
             // Faulty formData
+            System.out.println("lol");
             System.out.println(e);
         }
 

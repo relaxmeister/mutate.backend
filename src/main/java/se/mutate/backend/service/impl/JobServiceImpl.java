@@ -32,14 +32,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobSpecifics getJobSpecificsById(Long id) {
+    public JobSpecifics getJobSpecificsByJobDetail(Long id) {
         JobDetail jd = new JobDetail();
         jd.setId(id);
         JobSpecifics js = jobSpecificsRepository.findByjobdetail(jd);
         return js;
     }
 
-    public JobSpecifics findByJobDetail(Long id) {
-        return new JobSpecifics();
-    }
+    // funkade inte bra
+//    public JobSpecifics findByJobDetail(Long id) {
+//        //TODO FUNKAR INTE findByJobDetailById
+//        return jobSpecificsRepository.findByJobDetailById(4l);
+//    }
+
+
 }

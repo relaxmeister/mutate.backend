@@ -10,6 +10,8 @@ public interface JobSpecificsRepository extends JpaRepository<JobSpecifics, Long
     //@Query("select p from Paper p where p.student.id = :student.id order by p.student.dateSubmitted")
     JobSpecifics findByjobdetail(JobDetail job);
 
+    //JobSpecifics findByJobDetailById(Long nr); funkar inte
+
     //@Query("SELECT u FROM JOB_SPECIFICS u WHERE u.status = 1")
     //@Query("SELECT * FROM JOB_SPECIFICS")
     //JobSpecifics findByJobDetail(Long id);

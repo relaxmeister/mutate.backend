@@ -40,7 +40,7 @@ public class SendMailServiceImpl implements SendMailService {
 
 
     public String sendFormAsEmail(FormData formdata, MultipartFile resume, MultipartFile coverLetter) throws IOException {
-        Email from = new Email("Belieber@example.com");
+        Email from = new Email("Tjohoo@example.com");
 
         String subject = "Job Application Mutate: "+ formdata.getJob() +" "+ formdata.getName() +" "+ formdata.getLastname();
         Email to = new Email("jojjethebest@hotmail.com");
@@ -73,7 +73,7 @@ public class SendMailServiceImpl implements SendMailService {
         attachment2.setContent(imageDataString);
         attachment2.setType(coverLetter.getContentType());
         attachment2.setFilename(coverLetter.getOriginalFilename());
-        attachment2.setDisposition("atBtachment");
+        attachment2.setDisposition("attachment");
         attachment2.setContentId("Banner");
 
         Mail mail = new Mail(from, subject, to, content);
