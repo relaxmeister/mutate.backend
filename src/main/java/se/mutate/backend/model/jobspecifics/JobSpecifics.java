@@ -1,13 +1,17 @@
 package se.mutate.backend.model.jobspecifics;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import se.mutate.backend.model.formdata.FormData;
 import se.mutate.backend.model.jobdetail.JobDetail;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,8 +27,9 @@ skulle även kunna använda @mapsId annotation, då blir foreign key = primary k
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne//(fetch = FetchType.LAZY) // skapade problem med att serializable blabla
-    @JoinColumn(name = "jobdetail_id") //this explains that the o
+    //@OneToOne(mappedBy = "jobSpecifics")//(fetch = FetchType.LAZY) // skapade problem med att serializable blabla
+    //@JoinColumn(name = "jobdetail_id") //this explains that the o
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "jobSpecifics")
     private JobDetail jobdetail;
 
     private String role;
@@ -39,5 +44,8 @@ skulle även kunna använda @mapsId annotation, då blir foreign key = primary k
 
     private String[] bonus;
 
+    @JsonIgnore
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "jobSpecifics")
+    private Set<FormData> formdata = new HashSet<>();
 
 }

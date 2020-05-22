@@ -40,4 +40,8 @@ public class JobController {
 
     }
 
+    @DeleteMapping(value = "/{id}")
+    public void deleteJob(@PathVariable("id") Long id) {
+        jobService.deleteJobById(id);
+    }
 }

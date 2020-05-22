@@ -10,5 +10,6 @@ public interface JobService {
     Set<JobDetail> getJobs();
     JobSpecifics getJobSpecificsByJobDetail(Long id);
     //JobSpecifics findByJobDetail(Long id);
+    void deleteJobById(Long id);
 
 }

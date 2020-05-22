@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.mutate.backend.model.formdata.FormData;
+import se.mutate.backend.service.ApplicationService;
 import se.mutate.backend.service.SendMailService;
 
 import javax.imageio.IIOException;
@@ -25,13 +26,15 @@ import org.springframework.validation.Validator;
 @RequestMapping(value = "/recruit")
 public class FormController {
     private SendMailService sendMailService;
+    private ApplicationService applicationService;
 
     @Autowired
     Validator validata;
 
     @Autowired
-    public FormController(SendMailService sendMailService) {
+    public FormController(SendMailService sendMailService, ApplicationService applicationService) {
         this.sendMailService = sendMailService;
+        this.applicationService = applicationService;
     }
 
     @CrossOrigin(origins="*")
@@ -44,6 +47,7 @@ public class FormController {
     }
 
     @CrossOrigin(origins="*")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/phnewer", headers=("content-type=multipart/*"))
     public String woooo(@RequestParam("file1") MultipartFile resume,
                         @RequestParam("file2") MultipartFile coverLetter,
@@ -53,7 +57,9 @@ public class FormController {
                         @RequestParam("phone") String name4,
                         @RequestParam("city") String name5,
                         @RequestParam(value = "reasoning", required = false) String name6*/) throws IOException {
-        // TODO Validate parameters and so on
+        // TODO APPLICATION SKA ÄVEN HAMNA I
+
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             FormData formdata = new ObjectMapper().readValue(obj, FormData.class);
@@ -79,6 +85,7 @@ public class FormController {
                 throw new IOException("Uppgifter inte korrekt inmatade");
             }
             sendMailService.sendFormAsEmail(formdata, resume, coverLetter); // lär vilja sätta specfiktjobb som en formdata-variabel
+            applicationService.createNewApplication(formdata);
             return "SUCCESS!";
         } catch (Exception e) {
             // Faulty formData
@@ -93,5 +100,10 @@ public class FormController {
         dataForm.setLastname(name2);
         dataForm.setReasoning(name6);*/
         return "SUPERFAIL";
+    }
+
+    @DeleteMapping(value = "/applications/{id}")
+    public void deleteApplication(@PathVariable("id") Long id) {
+        applicationService.deleteApplicationById(id);
     }
 }

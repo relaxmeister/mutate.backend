@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import se.mutate.backend.model.jobspecifics.JobSpecifics;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -25,4 +23,8 @@ public class JobDetail {
     private String role;
 
     private String field;
+
+    @OneToOne(cascade = CascadeType.ALL)//(fetch = FetchType.LAZY) // skapade problem med att serializable blabla
+    @JoinColumn(name = "jobspecifics_id", referencedColumnName = "id") //this explains that the o
+    private JobSpecifics jobSpecifics;
 }

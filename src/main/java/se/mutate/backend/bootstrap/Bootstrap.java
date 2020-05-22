@@ -3,8 +3,10 @@ package se.mutate.backend.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import se.mutate.backend.model.fileobject.FileObject;
+import se.mutate.backend.model.formdata.FormData;
 import se.mutate.backend.model.jobdetail.JobDetail;
 import se.mutate.backend.model.jobspecifics.JobSpecifics;
+import se.mutate.backend.repositories.ApplicationRepository;
 import se.mutate.backend.repositories.DownloadReposity;
 import se.mutate.backend.repositories.JobDetailRepository;
 import se.mutate.backend.repositories.JobSpecificsRepository;
@@ -12,6 +14,8 @@ import se.mutate.backend.repositories.JobSpecificsRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -19,11 +23,13 @@ public class Bootstrap implements CommandLineRunner {
     private final JobDetailRepository jobDetailRepository;
     private final JobSpecificsRepository jobSpecificsRepository;
     private final DownloadReposity downloadReposity;
+    private final ApplicationRepository applicationRepository;
 
-    public Bootstrap(JobDetailRepository jobDetailRepository, JobSpecificsRepository jobSpecificsRepository, DownloadReposity downloadReposity) {
+    public Bootstrap(JobDetailRepository jobDetailRepository, JobSpecificsRepository jobSpecificsRepository, DownloadReposity downloadReposity, ApplicationRepository applicationRepository) {
         this.jobDetailRepository = jobDetailRepository;
         this.jobSpecificsRepository = jobSpecificsRepository;
         this.downloadReposity = downloadReposity;
+        this.applicationRepository = applicationRepository;
     }
 
     @Override
@@ -31,17 +37,30 @@ public class Bootstrap implements CommandLineRunner {
         loadJobDetails();
         loadJobSpecifics();
         loadDownloadFile();
+        loadApplications();
     }
     private void loadJobDetails() {
-        JobDetail job1 = new JobDetail(1l,"Senior UI/UX Designer", "Design");
+
+        JobSpecifics jobSp = new JobSpecifics();
+        jobSp.setId(1l);
+
+        JobDetail job1 = new JobDetail(1l,"Senior UI/UX Designer", "Design", jobSp);
         jobDetailRepository.save(job1);
-        JobDetail job2 = new JobDetail(2l,"Junior Frontend Developer", "Engineering");
+
+        jobSp.setId(2l);
+        JobDetail job2 = new JobDetail(2l,"Junior Frontend Developer", "Engineering", jobSp);
         jobDetailRepository.save(job2);
-        JobDetail job3 = new JobDetail(3l,"Frontend Developer", "Engineering");
+
+        jobSp.setId(3l);
+        JobDetail job3 = new JobDetail(3l,"Frontend Developer", "Engineering", jobSp);
         jobDetailRepository.save(job3);
-        JobDetail job4 = new JobDetail(4l,"Data Analytic", "Data");
+
+        jobSp.setId(4l);
+        JobDetail job4 = new JobDetail(4l,"Data Analytic", "Data", jobSp);
         jobDetailRepository.save(job4);
-        JobDetail job5 = new JobDetail(5l,"World of Data", "Data");
+
+        jobSp.setId(5l);
+        JobDetail job5 = new JobDetail(5l,"World of Data", "Data", jobSp);
         jobDetailRepository.save(job5);
 
     }
@@ -50,6 +69,11 @@ public class Bootstrap implements CommandLineRunner {
         JobDetail job = new JobDetail();
         job.setId(1l);
         job.setRole("Senior UI/UX Designer");
+
+        Set<FormData> fdSet = new HashSet<>();
+
+        //FormData fd1 = new FormData();
+        //fdSet.add(fd1);
 
         String[] jobDesc = {"You will develop a desktop client application based on Electron." +
                 "You will be taking on a role as frontend lead where scalability is important to you," +
@@ -76,7 +100,7 @@ public class Bootstrap implements CommandLineRunner {
                 "Experience with C-- and building native modules.",
                 "Experience with CI/CD, static code analysis tools and Gitflow."};
         JobSpecifics js1 = new JobSpecifics(1l, job,
-                job.getRole(), jobDesc, doing, shouldHave, bonus);
+                job.getRole(), jobDesc, doing, shouldHave, bonus, fdSet);
         jobSpecificsRepository.save(js1);
 
         jobDesc = new String[]{"You will learn from the best and sit back and enjoy the ride.",
@@ -86,7 +110,7 @@ public class Bootstrap implements CommandLineRunner {
         bonus = new String[]{""};
         job.setId(2l);
         job.setRole("Junior Frontend Developer");
-        js1 = new JobSpecifics(2l, job, job.getRole(), jobDesc, doing, shouldHave, bonus);
+        js1 = new JobSpecifics(2l, job, job.getRole(), jobDesc, doing, shouldHave, bonus, fdSet);
         jobSpecificsRepository.save(js1);
 
         jobDesc = new String[]{""};
@@ -95,7 +119,7 @@ public class Bootstrap implements CommandLineRunner {
         bonus = new String[]{""};
         job.setId(3l);
         job.setRole("Frontend Developer");
-        js1 = new JobSpecifics(3l, job, job.getRole(), jobDesc, doing, shouldHave, bonus);
+        js1 = new JobSpecifics(3l, job, job.getRole(), jobDesc, doing, shouldHave, bonus, fdSet);
         jobSpecificsRepository.save(js1);
 
         jobDesc = new String[]{""};
@@ -104,7 +128,7 @@ public class Bootstrap implements CommandLineRunner {
         bonus = new String[]{""};
         job.setId(4l);
         job.setRole("Data Analytic");
-        js1 = new JobSpecifics(4l, job, job.getRole(), jobDesc, doing, shouldHave, bonus);
+        js1 = new JobSpecifics(4l, job, job.getRole(), jobDesc, doing, shouldHave, bonus, fdSet);
         jobSpecificsRepository.save(js1);
 
         jobDesc = new String[]{""};
@@ -113,7 +137,7 @@ public class Bootstrap implements CommandLineRunner {
         bonus = new String[]{""};
         job.setId(5l);
         job.setRole("World of Data");
-        js1 = new JobSpecifics(5l, job, job.getRole(), jobDesc, doing, shouldHave, bonus);
+        js1 = new JobSpecifics(5l, job, job.getRole(), jobDesc, doing, shouldHave, bonus, fdSet);
         jobSpecificsRepository.save(js1);
 
 
@@ -150,5 +174,14 @@ public class Bootstrap implements CommandLineRunner {
         downloadReposity.save(fileO);
         //fileO.setFile(fileContent);
 
+    }
+
+    private void loadApplications() {
+        JobSpecifics js = new JobSpecifics();
+        js.setId(1l);
+
+        FormData formdata1 = new FormData(1l,"Peter", "Larsson", "070-123 456", "Stockholm",
+                "because i want to", "abc@abc.abc", "hockeyspelare", js);
+        applicationRepository.save(formdata1);
     }
 }

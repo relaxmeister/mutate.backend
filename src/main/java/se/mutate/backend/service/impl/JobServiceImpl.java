@@ -39,6 +39,10 @@ public class JobServiceImpl implements JobService {
         return js;
     }
 
+    @Override
+    public void deleteJobById(Long id) {
+        jobDetailRepository.deleteById(id);
+    }
     // funkade inte bra
 //    public JobSpecifics findByJobDetail(Long id) {
 //        //TODO FUNKAR INTE findByJobDetailById
