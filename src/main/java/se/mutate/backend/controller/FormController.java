@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import se.mutate.backend.model.formdata.FormData;
+import se.mutate.backend.model.jobdetail.Job;
 import se.mutate.backend.service.ApplicationService;
 import se.mutate.backend.service.SendMailService;
 
@@ -38,31 +39,29 @@ public class FormController {
     }
 
     @CrossOrigin(origins="*")
-    @PostMapping("/ph")//temporär placeholder
-    @ResponseStatus(HttpStatus.OK)
-    public FormData sendJobApplication(@RequestBody FormData formdata) {
-
-        //sendMailService.sendFormAsEmail(formdata); //vill nu ha 2 filer
-        return formdata;
+    @GetMapping(value = "/applications")
+    public Set<FormData> getAllApplications() {
+        return applicationService.getAllApplications();
     }
+
+//    @GetMapping(value = "/jobs/{id}/applications")
+//    @ResponseStatus(HttpStatus.OK)
+//    public Set<FormData> getApplicationsByJob(@PathVariable("id") Long id) {
+//        return applicationService.getApplicationsByJob(id);
+//    }
 
     @CrossOrigin(origins="*")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/phnewer", headers=("content-type=multipart/*"))
     public String woooo(@RequestParam("file1") MultipartFile resume,
                         @RequestParam("file2") MultipartFile coverLetter,
-                        @RequestParam("obj") String obj
-                        /*@RequestParam("lastname") String name2,
-                        @RequestParam("email") String name3,
-                        @RequestParam("phone") String name4,
-                        @RequestParam("city") String name5,
-                        @RequestParam(value = "reasoning", required = false) String name6*/) throws IOException {
-        // TODO APPLICATION SKA ÄVEN HAMNA I
+                        @RequestParam("obj") String obj) throws IOException {
 
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        //ObjectMapper objectMapper = new ObjectMapper();
         try {
             FormData formdata = new ObjectMapper().readValue(obj, FormData.class);
+
 
             BindingResult errors = new BeanPropertyBindingResult(formdata, "data");
             validata.validate(formdata, errors); // populerar errors
@@ -85,7 +84,7 @@ public class FormController {
                 throw new IOException("Uppgifter inte korrekt inmatade");
             }
             sendMailService.sendFormAsEmail(formdata, resume, coverLetter); // lär vilja sätta specfiktjobb som en formdata-variabel
-            applicationService.createNewApplication(formdata);
+            applicationService.createNewApplication(formdata); // Lagras nu i databasen
             return "SUCCESS!";
         } catch (Exception e) {
             // Faulty formData
@@ -102,6 +101,7 @@ public class FormController {
         return "SUPERFAIL";
     }
 
+    @CrossOrigin(origins="*")
     @DeleteMapping(value = "/applications/{id}")
     public void deleteApplication(@PathVariable("id") Long id) {
         applicationService.deleteApplicationById(id);

@@ -42,12 +42,12 @@ public class SendMailServiceImpl implements SendMailService {
     public String sendFormAsEmail(FormData formdata, MultipartFile resume, MultipartFile coverLetter) throws IOException {
         Email from = new Email("Tjohoo@example.com");
 
-        String subject = "Job Application Mutate: "+ formdata.getJob() +" "+ formdata.getName() +" "+ formdata.getLastname();
+        String subject = "Job Application Mutate: "+ "formdata.getJob()" +" "+ formdata.getName() +" "+ formdata.getLastname();
         Email to = new Email("jojjethebest@hotmail.com");
         Content content = new Content("text/html",
                 "<html><body>" +
                         "<p style=\"color: #000000; font-weight: bold\">Mail was sent by SendGrid!</p>" +
-                        "<p style=\"color: #000000; font-weight: bold\">APPLICATION FOR "+formdata.getJob()+"</p>" +
+                        "<p style=\"color: #000000; font-weight: bold\">APPLICATION FOR "+"formdata.getJob()"+"</p>" +
                         "<p><span style=\"color: #000000; font-weight: bold\">Name: </span>"+formdata.getName()+" "+formdata.getLastname()+"</p>" +
                         "<p><span style=\"color: #000000; font-weight: bold\">City: </span>"+formdata.getCity()+"</p>" +
                         "<p><span style=\"color: #000000; font-weight: bold\">PhoneNr: </span>"+formdata.getPhone()+"</p>" +

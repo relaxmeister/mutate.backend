@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import se.mutate.backend.model.jobspecifics.JobSpecifics;
+import se.mutate.backend.model.jobdetail.Job;
+//import se.mutate.backend.model.jobspecifics.JobSpecifics;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -47,6 +48,7 @@ public class FormData {
     private String city;
     //optional atm
 
+    @Column(columnDefinition = "VARCHAR(max)")
     private String reasoning;
 
     @NotNull
@@ -55,12 +57,12 @@ public class FormData {
 
     @NotNull
     @Size(min = MIN_LENGTH, max = MAX_LENGTH)
-    private String job;
+    private String role;
+    //DENNA ÄR NU FEL
 
 
     @ManyToOne
-    @JoinColumn(name = "jobSpecifics_id")
-    @JsonIgnore
-    private JobSpecifics jobSpecifics;
+    @JoinColumn(name = "job_id")
+    private Job job;
 
 }

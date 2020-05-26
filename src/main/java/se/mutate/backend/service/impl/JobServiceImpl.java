@@ -2,52 +2,56 @@ package se.mutate.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.mutate.backend.model.jobdetail.JobDetail;
-import se.mutate.backend.model.jobspecifics.JobSpecifics;
-import se.mutate.backend.repositories.JobDetailRepository;
-import se.mutate.backend.repositories.JobSpecificsRepository;
+import se.mutate.backend.model.jobdetail.Job;
+import se.mutate.backend.repositories.JobRepository;
 import se.mutate.backend.service.JobService;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class JobServiceImpl implements JobService {
 
     @Autowired
-    private final JobDetailRepository jobDetailRepository;
-    @Autowired
-    private final JobSpecificsRepository jobSpecificsRepository;
+    private final JobRepository jobRepository;
 
-    public JobServiceImpl(JobDetailRepository jobDetailRepository, JobSpecificsRepository jobSpecificsRepository) {
-        this.jobDetailRepository = jobDetailRepository;
-        this.jobSpecificsRepository = jobSpecificsRepository;
+
+    public JobServiceImpl(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
     }
 
     @Override
-    public Set<JobDetail> getJobs(){
-        Set<JobDetail> poop = new HashSet<>();
-        jobDetailRepository.findAll().forEach(poop::add);
-        return poop;
+    public Set<Job> getJobs(){
+        Set<Job> jobs = new HashSet<>();
+        jobRepository.findAll().forEach(jobs::add);
+        return jobs;
     }
 
     @Override
-    public JobSpecifics getJobSpecificsByJobDetail(Long id) {
-        JobDetail jd = new JobDetail();
-        jd.setId(id);
-        JobSpecifics js = jobSpecificsRepository.findByjobdetail(jd);
-        return js;
-    }
+    public Job getJobById(Long id){
+        return jobRepository.findById(id).orElse(null);
+    };
+
+
 
     @Override
     public void deleteJobById(Long id) {
-        jobDetailRepository.deleteById(id);
+        jobRepository.deleteById(id);
     }
-    // funkade inte bra
-//    public JobSpecifics findByJobDetail(Long id) {
-//        //TODO FUNKAR INTE findByJobDetailById
-//        return jobSpecificsRepository.findByJobDetailById(4l);
-//    }
 
+    @Override
+    public Job add(Job job) {
+        return jobRepository.save(job);
+    }
+
+    @Override
+    public Job saveJobById(Long id, Job job) {
+        Job updatedJob = job;
+        updatedJob.setId(id);
+        //om Id:t inte längre finns kommer det inte bli en override utan skapas en helt ny save med nytt unikt id
+
+        return jobRepository.save(updatedJob);
+    }
 
 }
