@@ -38,11 +38,13 @@ public class JobController {
 
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping(value = "/applications")
     public Job  createJob(@RequestBody Job job) {
         return jobService.add(job);
     }
 
+    @CrossOrigin(origins="*")
     @PutMapping(value ="/applications/{id}")
     public Job updateJob(@PathVariable("id") Long id, @RequestBody Job job) {
         return jobService.saveJobById(id, job);
