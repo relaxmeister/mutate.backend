@@ -14,6 +14,9 @@ import se.mutate.backend.repositories.JobRepository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -116,7 +119,7 @@ public class Bootstrap implements CommandLineRunner {
 
     private void loadUsers() {
 
-        AppUser adminUser = new AppUser();
+        /*AppUser adminUser = new AppUser();
         adminUser.setUsername("admin");
         adminUser.setEmail("admin@a.com");
         adminUser.setPassword("admin");
@@ -128,12 +131,19 @@ public class Bootstrap implements CommandLineRunner {
         user.setEmail("a@a.com");
         user.setClaims("normal");
         user.setPassword("123");
-        appUserRepository.save(user);
+        appUserRepository.save(user);*/
+
+        List<AppUser> users = Stream.of(
+                new AppUser(101L, "big", "a@a.com", "pass", "normal"),
+                new AppUser(102L,"small", "a@b.com", "pass", "normal"),
+                new AppUser(103L,"admin", "admin@a.com", "pass", "admin")
+        ).collect(Collectors.toList());
+        appUserRepository.saveAll(users);
     }
 
     private void loadDownloadFile() throws IOException {
         // create file object
-        String filePath = "Learn Microservices with Spring Boot.pdf";
+        String filePath = "UppgiftTvåJonasRapport.pdf";
         File file = new File(filePath);
         byte[] fileContent = new byte[(int) file.length()];
 

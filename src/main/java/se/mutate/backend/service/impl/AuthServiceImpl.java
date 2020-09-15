@@ -13,12 +13,14 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserRepository appUserRepository;
 
     public AuthServiceImpl(AppUserRepository appUserRepository) {
-        this.appUserRepository = appUserRepository;
+            this.appUserRepository = appUserRepository;
     }
 
     @Override
-    public AppUser loginUser(String email, String password) {
-        return appUserRepository.findByEmailAndPassword(email, password);
+    public AppUser loginUser(String username, String password) {
+        System.out.println("LOGINUSERIMPL: " + username + " " + password);
+        //return appUserRepository.findByEmailAndPassword(email, password);
+        return appUserRepository.findByUsernameAndPassword(username, password);
     }
 
     @Override
@@ -26,4 +28,5 @@ public class AuthServiceImpl implements AuthService {
         user.setClaims("normal"); //med andra ord alla som skapas via API blir normal
         return appUserRepository.save(user);
     }
+    //borde finnas en egen för specifikt adminroll?
 }

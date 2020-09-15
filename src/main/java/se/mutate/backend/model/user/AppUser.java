@@ -14,6 +14,8 @@ import javax.persistence.*;
 @Entity
 public class AppUser {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +29,5 @@ public class AppUser {
     private String password;
 
     private String claims; // admin kontra normal
+
 }
